@@ -1,0 +1,50 @@
+﻿@model IEnumerable<RentBoat.WebSite.Areas.Customer.Models.BoatViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+<br />
+<br />
+<br />
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BoatNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BoatName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HourlyRate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BoatNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BoatName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HourlyRate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerName)
+        </td>
+        <td>
+            @*@Html.ActionLink("Request Renting Out", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Mark As Renturned", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Remove From Registery", "Delete", new { /* id=item.PrimaryKey */ })*@
+        </td>
+    </tr>
+}
+
+</table>
