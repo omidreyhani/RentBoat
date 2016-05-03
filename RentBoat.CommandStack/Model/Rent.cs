@@ -11,5 +11,6 @@ namespace RentBoat.CommandStack.Model
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public Boat Boat { get; set; }
+        public int BoatId { get; set; }
     }
 }

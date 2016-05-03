@@ -6,7 +6,6 @@ using System.Linq;
 using System.Web;
 using RentBoat.CommandStack;
 using RentBoat.CommandStack.Model;
-using RentBoat.QueryStack;
 using RentBoat.WebSite.Areas.Customer.Models;
 
 namespace RentBoat.WebSite.Areas.Customer.WorkerServices
@@ -14,14 +13,11 @@ namespace RentBoat.WebSite.Areas.Customer.WorkerServices
     public class BoatWorkerService
     {
         private readonly IRepository _repository;
-        //readonly IQueryRepository _queryRepository;
 
-        public BoatWorkerService(IRepository repository, IQueryRepository queryRepository)
+        public BoatWorkerService(IRepository repository)
         {
             _repository = repository;
-            //_queryRepository = queryRepository;
         }
-
 
         public RegisterNewBoatViewModel Register(RegisterNewBoatInputModel registerNewBoatInputModel)
         {
@@ -37,7 +33,6 @@ namespace RentBoat.WebSite.Areas.Customer.WorkerServices
             {
                 BoatNumber = boat.Id
             };
-
         }
 
         public RentOutViewModel RequestRentingOut(RentOutInputModel rentOutInputModel)
@@ -57,15 +52,15 @@ namespace RentBoat.WebSite.Areas.Customer.WorkerServices
                 CustomerName = rentOutInputModel.CustomerName,
                 StartTime = DateTime.Now,
                 EndTime = null,
-                Boat = _repository.GetBoatById(rentOutInputModel.BoatNumber)
+                BoatId = rentOutInputModel.BoatNumber
             };
+
             _repository.Add(update);
 
             return new RentOutViewModel()
             {
 
             };
-
         }
 
         public ReturnBoatViewModel MarkAsRenturned(ReturnBoatInputModel rentOutInputModel)
@@ -77,7 +72,6 @@ namespace RentBoat.WebSite.Areas.Customer.WorkerServices
                 throw new Exception("Can not find the rent record.");
             }
 
-
             rent.EndTime = DateTime.Now;
 
             _repository.MarkAsRenturned(rentOutInputModel.BoatNumber, rent.EndTime.Value);
@@ -85,7 +79,6 @@ namespace RentBoat.WebSite.Areas.Customer.WorkerServices
             if (rent.StartTime == null || rent.EndTime == null) throw new Exception("Cloun't mark as rented");
 
             TimeSpan ts = rent.EndTime.Value - rent.StartTime.Value;
-
 
             return new ReturnBoatViewModel()
             {
@@ -98,7 +91,6 @@ namespace RentBoat.WebSite.Areas.Customer.WorkerServices
         {
             _repository.RemoveBoatById(removeBoatInputModel.BoatNumber);
             return new RemoveBoatViewModel();
-
         }
 
         public IEnumerable<BoatViewModel> Index()

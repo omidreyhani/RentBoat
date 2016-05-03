@@ -23,9 +23,6 @@ namespace RentBoat.Autofac
             builder.RegisterType<Repository>().As<IRepository>();
             builder.RegisterType<QueryRepository>().As<IQueryRepository>();
 
-            builder.RegisterType<CommandRentBoatContextDatabaseInitializer>().As<ICommandRentBoatContextDatabaseInitializer>();
-            
-
 
 
 

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RentBoat.CommandStack.Model;
 
 namespace RentBoat.CommandStack
@@ -14,9 +11,7 @@ namespace RentBoat.CommandStack
         IQueryable<Rent> GetAllRents();
 
         void RemoveBoatById(int boatId);
-        void Update(Boat boat);
         void Add(Rent rent);
-        Boat GetBoatById(int boatNumber);
         void MarkAsRenturned(int boatNumber, DateTime endTime);
     }
 }

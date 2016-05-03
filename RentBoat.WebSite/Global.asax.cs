@@ -53,7 +53,6 @@ namespace RentBoat.WebSite
 
 
             //container.Resolve<IQueryRentBoatContexttDatabaseInitializer>().Initialize();
-            container.Resolve<ICommandRentBoatContextDatabaseInitializer>().Initialize();
         }
     }
 }

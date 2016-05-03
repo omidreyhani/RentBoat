@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Rent.cs" />
-    <Compile Include="RentBoatContextDatabaseInitializer.cs" />
     <Compile Include="QueryRepository.cs" />
     <Compile Include="IQueryRepository.cs" />
     <Compile Include="Model\Boat.cs" />

@@ -38,16 +38,10 @@ namespace RentBoat.CommandStack
             }; 
         }
 
-        public void Update(Boat boat)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Add(Rent rent)
         {
             using (var rentBoatContext = new RentBoatContext())
             {
-                rentBoatContext.Boats.Attach(rent.Boat);
                 rentBoatContext.Rents.Add(rent);
                 rentBoatContext.SaveChanges();
             };
