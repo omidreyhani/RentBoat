@@ -15,18 +15,27 @@ namespace RentBoat.CommandStack
             }
         }
 
+        readonly RentBoatContext _rentBoatContext=new RentBoatContext();
         public IQueryable<Boat> GetAllBoats()
         {
-            using (var rentBoatContext = new RentBoatContext())
-            {
-                return rentBoatContext.Boats;
-            };
+                return _rentBoatContext.Boats;
+        }
+
+        public IQueryable<Rent> GetAllRents()
+        {
+                return _rentBoatContext.Rents;
         }
 
 
         public void RemoveBoatById(int boatId)
         {
-            throw new NotImplementedException();
+            using (var rentBoatContext = new RentBoatContext())
+            {
+                Boat boat =new Boat(){ Id = boatId};
+                rentBoatContext.Boats.Attach(boat);
+                rentBoatContext.Boats.Remove(boat);
+                rentBoatContext.SaveChanges();
+            }; 
         }
 
         public void Update(Boat boat)
@@ -38,6 +47,7 @@ namespace RentBoat.CommandStack
         {
             using (var rentBoatContext = new RentBoatContext())
             {
+                rentBoatContext.Boats.Attach(rent.Boat);
                 rentBoatContext.Rents.Add(rent);
                 rentBoatContext.SaveChanges();
             };
@@ -49,6 +59,16 @@ namespace RentBoat.CommandStack
             {
                 return rentBoatContext.Boats.FirstOrDefault(x => x.Id == boatNumber);
             }; 
+        }
+
+        public void MarkAsRenturned(int boatNumber, DateTime endTime)
+        {
+            using (var rentBoatContext = new RentBoatContext())
+            {
+                var rent = rentBoatContext.Rents.FirstOrDefault(x => x.Boat.Id == boatNumber && x.EndTime == null);
+                rent.EndTime = endTime;
+                rentBoatContext.SaveChanges();
+            };  
         }
     }
 }

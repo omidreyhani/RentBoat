@@ -11,6 +11,7 @@
         {
             using (RentBoatContext rentBoatContext = new RentBoatContext())
             {
+                rentBoatContext.Database.Delete();
                 rentBoatContext.Database.Initialize(true);
             }
         }

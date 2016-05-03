@@ -10,7 +10,7 @@ namespace RentBoat.CommandStack
 {
     public class RentBoatContext: DbContext 
     {
-        public RentBoatContext():base("r4")
+        public RentBoatContext():base("r7")
         {
             
         }

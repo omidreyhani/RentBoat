@@ -1,0 +1,39 @@
+User story 1
+
+As the user I want to register a new boat so that it can be rented out
+
+Acceptance criteria: I provide the boat name and hourly rate and request to register it. If the creation is successful, I get a boat number back, if there is a failure, I get informed of the reason.
+
+User Story 2
+
+As a user I can record a boat as rented to the customer
+
+Acceptance criteria: I provide a boat number and customer name, and request renting out. If unsuccessful I get informed of the reason. If the boat is currently rented out, it cannot be rented out.
+
+User Story 3
+
+As a user, I can record a boat as returned
+
+Acceptance criteria: I provide a boat number and request marking it as returned. If the operation is successful, I get back the rent time and price. If unsuccessful I get informed of the reason. Only the rented out boat can be returned.
+
+User Story 4
+
+As a user, I can remove the boat from a registry
+
+Acceptance criteria: I provide a boat number, and request a deregistration. If unsuccessful I get informed of the reason.
+
+ 
+
+Information
+
+Use C# and Visual Studio, we expect to see an ASP.Net MVC application. Persistence is required, the data should be saved and stored in a database (preferably MS SQL). We expect that Unit test code is supplied and covers the business rules.
+
+You are free to make own assumptions regarding the stories above, but please document them. Please also add the information you decide crucial for us to understand your solution. You have free choice of tools and technologies, but please include the instructions for things different from mentioned above.
+
+You don’t need to implement any user/password management
+
+The purpose of the assignment is to evaluate your skills, therefore we don't expect you to implement everything. Please deliver just enough code for us to evaluate your skills, but covering different areas of expertise.
+
+Please upload the result.
+
+This assignment is limited to 5h. The project you create should be zipped and uploaded to this portal in 5 hours since you received these instructions. A timer will indicate the time that is left. Please consider that an upload after the 5h in not possible.

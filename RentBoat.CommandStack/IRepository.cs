@@ -11,10 +11,12 @@ namespace RentBoat.CommandStack
     {
         void Add(Boat boat);
         IQueryable<Boat> GetAllBoats();
+        IQueryable<Rent> GetAllRents();
 
         void RemoveBoatById(int boatId);
         void Update(Boat boat);
         void Add(Rent rent);
         Boat GetBoatById(int boatNumber);
+        void MarkAsRenturned(int boatNumber, DateTime endTime);
     }
 }

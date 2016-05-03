@@ -9,7 +9,7 @@ namespace RentBoat.WebSite.Areas.Customer.Models
     public class ReturnBoatViewModel
     {
         [DisplayName("Rent Time")]
-        public string RentTime { get; set; }
+        public TimeSpan RentTime { get; set; }
 
         [DisplayName("Price")]
         public decimal Price { get; set; }

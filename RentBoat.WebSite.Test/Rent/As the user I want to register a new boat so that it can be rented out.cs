@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Data.Entity.Validation;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RentBoat.WebSite.Areas.Customer.Models;
@@ -23,12 +26,18 @@ namespace RentBoat.WebSite.Test.Rent
         }
 
         [TestMethod]
+        [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
         public void if_there_is_a_failure_I_get_informed_of_the_reason()
         {
             WorkerService.Invoking(x => x.Register(new RegisterNewBoatInputModel()
             {
                 HourlyRate = -1
-            })).ShouldThrow<Exception>();
+            }))
+                .ShouldThrow<DbEntityValidationException>()
+                .Which.EntityValidationErrors.FirstOrDefault()
+                .ValidationErrors.FirstOrDefault()
+                .ErrorMessage.Should()
+                .Be("The BoatName field is required.");
         }
     }
 }

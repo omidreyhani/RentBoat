@@ -15,8 +15,8 @@ namespace RentBoat.CommandStack.Model
         public string BoatName { get; set; }
         [Required]
         public decimal HourlyRate { get; set; }
-        public string CustomerName { get; set; }
-        public string RentTime { get; set; }
+
+        public ICollection<Rent> Rents { get; set; }
 
     }
 }

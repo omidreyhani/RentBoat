@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using RentBoat.CommandStack;
@@ -13,12 +14,12 @@ namespace RentBoat.WebSite.Areas.Customer.WorkerServices
     public class BoatWorkerService
     {
         private readonly IRepository _repository;
-        readonly IQueryRepository _queryRepository;
+        //readonly IQueryRepository _queryRepository;
 
         public BoatWorkerService(IRepository repository, IQueryRepository queryRepository)
         {
             _repository = repository;
-            _queryRepository = queryRepository;
+            //_queryRepository = queryRepository;
         }
 
 
@@ -27,7 +28,7 @@ namespace RentBoat.WebSite.Areas.Customer.WorkerServices
             var boat = new Boat()
             {
                 BoatName = registerNewBoatInputModel.BoatName,
-                HourlyRate = registerNewBoatInputModel.HourlyRate 
+                HourlyRate = registerNewBoatInputModel.HourlyRate
             };
 
             _repository.Add(boat);
@@ -41,19 +42,19 @@ namespace RentBoat.WebSite.Areas.Customer.WorkerServices
 
         public RentOutViewModel RequestRentingOut(RentOutInputModel rentOutInputModel)
         {
-            var boat = _queryRepository.GetBoats().FirstOrDefault(x => x.Id == rentOutInputModel.BoatNumber );
-           
-            if(boat==null)
+            var boat = _repository.GetAllBoats().FirstOrDefault(x => x.Id == rentOutInputModel.BoatNumber);
+
+            if (boat == null)
                 throw new Exception("Boat is not found");
 
-            var rent = _queryRepository.GetRents().FirstOrDefault(x => x.StartTime != null && x.EndTime ==null);
+            var rent = _repository.GetAllRents().FirstOrDefault(x => x.StartTime != null && x.EndTime == null && x.Boat.Id == rentOutInputModel.BoatNumber);
 
-            if(rent!=null)
+            if (rent != null)
                 throw new Exception("Boat is already rented");
 
             var update = new Rent()
             {
-                CustomerName =rentOutInputModel.CustomerName,
+                CustomerName = rentOutInputModel.CustomerName,
                 StartTime = DateTime.Now,
                 EndTime = null,
                 Boat = _repository.GetBoatById(rentOutInputModel.BoatNumber)
@@ -62,44 +63,51 @@ namespace RentBoat.WebSite.Areas.Customer.WorkerServices
 
             return new RentOutViewModel()
             {
-               
+
             };
 
         }
 
         public ReturnBoatViewModel MarkAsRenturned(ReturnBoatInputModel rentOutInputModel)
         {
-            //var boat = _queryRepository.GetBoats().FirstOrDefault(x => x.Id == rentOutInputModel.BoatNumber);
+            var rent = _repository.GetAllBoats().Include("Rents").First(x => x.Id == rentOutInputModel.BoatNumber).Rents.FirstOrDefault();
 
-            //if (boat == null)
-            //    throw new Exception("Boat is not found");
-            //if (!string.IsNullOrEmpty(boat.CustomerName))
-            //    throw new Exception("Boat is already rented");
+            if (rent == null)
+            {
+                throw new Exception("Can not find the rent record.");
+            }
 
-            //var update = new Boat()
-            //{
-            //    CustomerName = ""
-            //};
-            //_repository.Update(update);
+
+            rent.EndTime = DateTime.Now;
+
+            _repository.MarkAsRenturned(rentOutInputModel.BoatNumber, rent.EndTime.Value);
+
+            if (rent.StartTime == null || rent.EndTime == null) throw new Exception("Cloun't mark as rented");
+
+            TimeSpan ts = rent.EndTime.Value - rent.StartTime.Value;
+
 
             return new ReturnBoatViewModel()
             {
-                
+                RentTime = ts,
+                Price = decimal.Round(ts.Seconds* rent.Boat.HourlyRate/ 60 /60,2)
             };
         }
 
         public RemoveBoatViewModel RemoveFromRegistery(RemoveBoatInputModel removeBoatInputModel)
         {
-            throw new NotImplementedException();
+            _repository.RemoveBoatById(removeBoatInputModel.BoatNumber);
+            return new RemoveBoatViewModel();
+
         }
 
         public IEnumerable<BoatViewModel> Index()
         {
-            return _queryRepository.GetBoats().Select(x=>new BoatViewModel()
+            return _repository.GetAllBoats().Select(x => new BoatViewModel()
             {
                 BoatName = x.BoatName,
                 BoatNumber = x.Id,
-                CustomerName = x.CustomerName,
+                //CustomerName = x.,
                 HourlyRate = x.HourlyRate
             });
         }
