@@ -107,7 +107,7 @@ namespace RentBoat.WebSite.Areas.Customer.WorkerServices
             {
                 BoatName = x.BoatName,
                 BoatNumber = x.Id,
-                //CustomerName = x.,
+                CustomerName = x.Rents.Where(y => y.EndTime== null).Select(z=>z.CustomerName).FirstOrDefault(),
                 HourlyRate = x.HourlyRate
             });
         }

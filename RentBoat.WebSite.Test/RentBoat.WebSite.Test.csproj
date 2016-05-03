@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rent\As a user I can record a boat as rented to the customer.cs" />
+    <Compile Include="Rent\As a user I can see a list of registred boats and the customer who rented the boat.cs" />
     <Compile Include="Rent\As a user, I can record a boat as returned.cs" />
     <Compile Include="Rent\As a user, I can remove the boat from a registry.cs" />
     <Compile Include="Rent\As the user I want to register a new boat so that it can be rented out.cs" />
